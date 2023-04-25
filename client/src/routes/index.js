@@ -6,6 +6,7 @@ import MediaSearch from "../pages/MediaSearch";
 import MediaDetail from "../pages/MediaDetail";
 import PasswordUpdate from "../pages/PasswordUpdate";
 import ReviewList from "../pages/ReviewList";
+import ProtectedPage from "../components/common/ProtectedPage";
 
 export const routesGen = {
   home: "/",
@@ -37,27 +38,27 @@ const routes = [
   {
     path: "/password-update",
     element: (
-      //   <ProtectedPage>
-      <PasswordUpdate />
-      //   </ProtectedPage>
+      <ProtectedPage>
+        <PasswordUpdate />
+      </ProtectedPage>
     ),
     state: "password.update",
   },
   {
     path: "/favorites",
     element: (
-      //   <ProtectedPage>
-      <FavoriteList />
-      //   </ProtectedPage>
+      <ProtectedPage>
+        <FavoriteList />
+      </ProtectedPage>
     ),
     state: "favorites",
   },
   {
     path: "/reviews",
     element: (
-      //   <ProtectedPage>
-      <ReviewList />
-      //   </ProtectedPage>
+      <ProtectedPage>
+        <ReviewList />
+      </ProtectedPage>
     ),
     state: "reviews",
   },
