@@ -1,9 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "./features/User";
-import globalSlice from "./features/User";
-import themeSlice from "./features/User";
-import authSlice from "./features/User";
-import appSlice from "./features/User";
+import globalSlice from "./features/GlobalLoading";
+import themeSlice from "./features/Theme";
+import authSlice from "./features/AuthModal";
+import appSlice from "./features/AppState";
 
 const store = configureStore({
   reducer: {

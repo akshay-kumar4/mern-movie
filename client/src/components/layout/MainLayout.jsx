@@ -3,6 +3,7 @@ import { Box } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import GlobalLoading from "../common/GlobalLoading";
 import TopBar from "../common/TopBar";
+import Footer from "../common/Footer";
 
 const MainLayout = () => {
   return (
@@ -14,6 +15,7 @@ const MainLayout = () => {
           <Outlet />
         </Box>
       </Box>
+      <Footer />
     </>
   );
 };
