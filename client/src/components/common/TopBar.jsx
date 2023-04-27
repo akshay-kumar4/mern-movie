@@ -17,6 +17,7 @@ import { setAuthModalOpen } from "../../redux/features/AuthModal";
 import { setMode } from "../../redux/features/Theme";
 import Logo from "./Logo";
 import UserMenu from "./UserMenu";
+import Sidebar from "./Sidebar";
 
 const ScrollAppBar = ({ children, window }) => {
   const { themeMode } = useSelector((state) => state.themeMode);
@@ -47,7 +48,7 @@ const TopBar = () => {
   const { user } = useSelector((state) => state.user);
   const { appState } = useSelector((state) => state.appState);
   const { themeMode } = useSelector((state) => state.themeMode);
-  // const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const dispatch = useDispatch();
 
   const onSwicthTheme = () => {
@@ -56,53 +57,72 @@ const TopBar = () => {
     dispatch(setMode(theme));
   };
 
-  // const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
   return (
-    <ScrollAppBar>
-      <AppBar elevation={0} sx={{ zIndex: 9999 }}>
-        <Toolbar sx={{ alignItems: "center", justifyContent: "space-between" }}>
-          <Stack direction="row" spacing={1} alignItems="center">
-            <IconButton
-              color="inherit"
-              sx={{ mr: 2, display: { md: "none" } }}
-              onClick=""
-            >
-              <Menu />
-            </IconButton>
-            <Box sx={{ display: { xs: "inline-block", md: "none" } }}>
-              <Logo />
-            </Box>
-          </Stack>
-          <Box>
-            <Box sx={{ marginRight: "30px" }}>
-              <Logo />
-            </Box>
-            {menuConfigs.main.map((item, index) => (
-              <Button
-                key={index}
-                sx={{
-                  color: appState.includes(item.state)
-                    ? "primary.contrastText"
-                    : "inherit",
-                  mr: 2,
-                }}
-                component={Link}
-                to={item.path}
-                variant={appState.includes(item.state) ? "contained" : "text"}
+    <>
+      <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
+      <ScrollAppBar>
+        <AppBar elevation={0} sx={{ zIndex: 9999 }}>
+          <Toolbar
+            sx={{ alignItems: "center", justifyContent: "space-between" }}
+          >
+            <Stack direction="row" spacing={1} alignItems="center">
+              <IconButton
+                color="inherit"
+                sx={{ mr: 2, display: { md: "none" } }}
+                onClick={toggleSidebar}
               >
-                {item.display}
-              </Button>
-            ))}
-            <IconButton sx={{ color: "inherit" }} onClick={onSwicthTheme}>
-              {themeMode === themeConfigs.dark && <DarkModeOutlined />}
-              {themeMode === themeConfigs.light && <WbSunnyOutlined />}
-            </IconButton>
-          </Box>
-          <UserMenu />
-        </Toolbar>
-      </AppBar>
-    </ScrollAppBar>
+                <Menu />
+              </IconButton>
+              <Box sx={{ display: { xs: "inline-block", md: "none" } }}>
+                <Logo />
+              </Box>
+            </Stack>
+            <Box
+              flexGrow={1}
+              alignItems="center"
+              display={{ xs: "none", md: "flex" }}
+            >
+              <Box sx={{ marginRight: "30px" }}>
+                <Logo />
+              </Box>
+              {menuConfigs.main.map((item, index) => (
+                <Button
+                  key={index}
+                  sx={{
+                    color: appState.includes(item.state)
+                      ? "primary.contrastText"
+                      : "inherit",
+                    mr: 2,
+                  }}
+                  component={Link}
+                  to={item.path}
+                  variant={appState.includes(item.state) ? "contained" : "text"}
+                >
+                  {item.display}
+                </Button>
+              ))}
+              <IconButton sx={{ color: "inherit" }} onClick={onSwicthTheme}>
+                {themeMode === themeConfigs.dark && <DarkModeOutlined />}
+                {themeMode === themeConfigs.light && <WbSunnyOutlined />}
+              </IconButton>
+            </Box>
+            <Stack>
+              {!user && (
+                <Button
+                  variant="contained"
+                  onClick={() => dispatch(setAuthModalOpen(true))}
+                >
+                  Sign In
+                </Button>
+              )}
+            </Stack>
+            {user && <UserMenu />}
+          </Toolbar>
+        </AppBar>
+      </ScrollAppBar>
+    </>
   );
 };
 
